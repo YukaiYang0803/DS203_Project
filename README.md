@@ -3,8 +3,10 @@
 This is the course final project for DS-UA 203 Machine Learning for Language Understanding, taught by Professor [Sam Bowman](https://cims.nyu.edu/~sbowman/) at Spring 2022.
 
 ## Team Members
-[Yukai Yang](https://github.com/yk803)
+[Yukai Yang](https://www.linkedin.com/in/yukai-yang-7bba651a3/)
+
 Tracy Zhu
+
 Yuchen Zhu
 
 To download the whole directory, enter
