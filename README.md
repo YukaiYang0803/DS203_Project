@@ -22,6 +22,6 @@ to get the necessary packages and download the raw dataset (if there isn't one).
 
 For selecting words and sentences, follow the insturctions in `generate_dataset.ipynb` to build the dataset.
 
-Next, call `python add_fake_words.py` to generate the task dataset. It has two arguments: `data_dir`, representing the path name of the dataset we just built, and `mode`, determining how we want our fake new words to be generated.
+Next, call `python add_fake_words.py data_dir mode` to generate the task dataset. It has two arguments: `data_dir`, representing the path name of the dataset we just built, and `mode`, determining how we want our fake new words to be generated.
 
 Finally, call `python main.py` to send requests to access OpenAI GPT-3, with your unique API key. The key may rotate sometimes and may thus need updates.
