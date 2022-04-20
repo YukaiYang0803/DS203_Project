@@ -7,22 +7,35 @@ import argparse
 from IPython.display import clear_output
 import json
 
-#  Expose the API_KEY to the system
-os.environ['OPENAI_API_KEY'] = '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'
 
 #  Add arguments
 parser = argparse.ArgumentParser(description='Generate the query and run the experiment.')
 
+parser.add_argument('API_key',
+                    default = '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',
+                    type=str,
+                    help='API key for calling GPT-3')
+'''
+parser.add_argument('datafile_name', 
+                    default='data.csv',
+                    type=str,
+                    help='name of the query file (currently must be in the same dir)')
+'''
 parser.add_argument('mode', 
                     default=1,
                     type=int,
                     help='Choose the new words generate mode')
 args = parser.parse_args()
 
-#  Get arguments
+## Get arguments
+#  Expose the API_KEY to the system
+api = args.API_key
+os.environ['OPENAI_API_KEY'] = api
+#  determine the mode
 mode = args.mode
 if mode == 1:
     mode = '_typo'
+# data_dir = args.data_dir[:-4] # only want the name so take off ".csv"
 
 #  Read the files
 file = f'data{mode}.csv'
@@ -47,6 +60,7 @@ for i in queries.keys():
 '''
 
 #  Prepare to store the experiment data and result
+random_state = 2022
 queries = {}
 y_pred,y_true = {},{}
 
@@ -61,9 +75,13 @@ for i in range(len(df)):
     queries[i] = query
     y_true[i] = y
 
+random.seed(random_state)
+keys = list(queries.keys())
+random.shuffle(keys)
 #  Submit all queries
-for i in range(len(queries)):
-    query = queries[i]
+for i in keys:#range(len(queries)):
+    #query = queries[i] # in query order
+    query = queries[i] # in random order
     print(f'Requesting query {i}...')
     print(query)
     y_pred[i] = add_response(query)

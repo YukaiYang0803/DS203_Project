@@ -39,13 +39,13 @@ def change_word(word,idx,mode=1):
     if length == 3:
         return word[0]*2+word[1]+word[2]*2
     # choose letters at which indices to be changed
-    # set the number of changes (typos) to 2
+    # set the number of changes (typos) to 3
     # And sort the indices so the typo maker below will work sequentially correct
-    idx_to_change = sorted(random.sample(range(1,length),2))
+    idx_to_change = sorted(random.sample(range(1,length),3))
     # Decide how to change (True ==> duplicate | False ==> remove)
     # fix random state to maintain the same result
     random.seed(idx)
-    how_to_change = [bool(random.getrandbits(1)),bool(random.getrandbits(1))]
+    how_to_change = [bool(random.getrandbits(1)),bool(random.getrandbits(1)),bool(random.getrandbits(1))]
     new_word = ''
     prev = 0
     for idx, boo in zip(idx_to_change, how_to_change):
