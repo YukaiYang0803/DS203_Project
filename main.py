@@ -35,6 +35,8 @@ os.environ['OPENAI_API_KEY'] = api
 mode = args.mode
 if mode == 1:
     mode = '_typo'
+elif mode == 2:
+    mode = '_prefix_suffix'
 # data_dir = args.data_dir[:-4] # only want the name so take off ".csv"
 
 #  Read the files
@@ -67,7 +69,7 @@ y_pred,y_true = {},{}
 #  Generate the query
 for i in range(len(df)):
     row = df.iloc[i]
-    query,y = generate_query(row,i)
+    query,y = generate_query(row,i,mode)
     
     if query == None:
         break
@@ -75,7 +77,8 @@ for i in range(len(df)):
     queries[i] = query
     y_true[i] = y
 
-random.seed(random_state)
+#random.seed(random_state)
+# this one shall not be a fixed random (always shuffle the query randomly)
 keys = list(queries.keys())
 random.shuffle(keys)
 #  Submit all queries

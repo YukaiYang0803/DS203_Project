@@ -24,8 +24,7 @@ file = args.data_dir
 
 if mode == 1:
     new_col = '_typo'
-'''
-if mode == 2:
+elif mode == 2:
     new_col = '_prefix_suffix'''
 
 #  read the file
@@ -45,7 +44,7 @@ pd.options.mode.chained_assignment = None  # default='warn'
 
 # generate new words
 for (idx, word) in enumerate(df['word']):
-    df['mask_typo'][idx] = change_word(word,idx)
+    df['mask'+new_col][idx] = change_word(word,idx,mode)
 
 new_word_col = 'mask'+new_col
 
@@ -59,7 +58,7 @@ for idx in range(len(df)):
         word_ind = df[col][idx].lower().find(word)
         word_ind = [word_ind, word_ind+word_length]
         new_word = df[new_word_col][idx]
-        df[col+'_typo'][idx] = df[col][idx][:word_ind[0]]+new_word+df[col][idx][word_ind[1]:]
+        df[col+new_col][idx] = df[col][idx][:word_ind[0]]+new_word+df[col][idx][word_ind[1]:]
 
 
 df.to_csv(f'data{new_col}.csv')
