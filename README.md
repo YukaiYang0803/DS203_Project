@@ -5,9 +5,9 @@ This is the course final project for DS-UA 203 Machine Learning for Language Und
 ## Team Members
 [Yukai Yang](https://www.linkedin.com/in/yukai-yang-7bba651a3/)
 
-Tracy Zhu
+[Tracy Zhu](https://www.linkedin.com/in/yixin-zhu-701478188/)
 
-Yuchen Zhu
+[Yuchen Zhu](https://yuchen-zhu-zyc.github.io/)
 
 To download the whole directory, enter
 
