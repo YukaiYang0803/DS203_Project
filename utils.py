@@ -3,6 +3,7 @@ import openai
 import random
 import pandas as pd
 import json
+from string import ascii_lowercase as lower
 from hyphen import Hyphenator
 from transformers import pipeline
 
@@ -17,7 +18,7 @@ B. retire
 C. resign
 D. continue
 Provide the answer in A, B, C, or D.
-C
+D
 
 The population of this region, however, is neur, and its growth is slow.
 All of these were originally salt-steppes, and, where the soil is still highly impregnated with salt, have only a sparse covering of shrubs, mostly members of the Salsolaceae, with thick, greyish green, often downy leaves.
@@ -54,6 +55,8 @@ B
 
 """
 
+
+
 def gpt3(gtext,print_content=False):
     openai.api_key = os.getenv("OPENAI_API_KEY")
     response = openai.Completion.create(
@@ -86,20 +89,19 @@ def add_response(query):
     return ans
 
 def add_response_gpt2(query,model):
-    """ Call the GPT-3 model with query, and record the response choice. """
+    """ Call the GPT-2 model with query, and record the response choice. """
     response = gpt2(query,model)
-    print('response',response)
     return response
 
 def score_gpt2(y_true,y_pred):
     total = len(y_true)
-    #def valid_ans(ans): # ['A','C','The'] ==> return 2
-    #    return sum([1 if ans[i] in ['A','B','C','D'] else 0 for i in range(len(ans))])
-    #def correct_effective(y_true,y_pred): # correct ans / ans that is A,B,C,D (invalid answer not included)
-    #    return 100*sum([sum([y_true[key]==y_pred[key][i] for i in range(10)])/valid_ans(y_pred[key]) for key in y_true.keys()])/total
+    def valid_ans(ans): # ['A','C','The'] ==> return 2
+        return sum([1 if ans[i] in ['A','B','C','D'] else 0 for i in range(len(ans))])
+    def correct_effective(y_true,y_pred): # correct ans / ans that is A,B,C,D (invalid answer not included)
+        return 100*sum([sum([y_true[key]==y_pred[key][i] for i in range(10)])/valid_ans(y_pred[key]) for key in y_true.keys()])/total
     def correct_all(y_true, y_pred): # correct ans / all answers
         return 100*sum([sum([y_true[key]==y_pred[key][i] for i in range(10)]) for key in y_true.keys()])/total/10
-    return correct_all(y_true,y_pred)#correct_effective(y_true,y_pred),correct_all(y_true,y_pred)
+    return correct_effective(y_true,y_pred),correct_all(y_true,y_pred)
 
 def score(y_true,y_pred):
     """ Compute acc of the prediction"""
@@ -213,7 +215,7 @@ def change_word(word,idx,mode):
     elif mode == 3:
         return replace_pre_suffix(word,idx)
     elif mode == 4:
-        return replace_random(word,idx)
+        return make_random(word,idx)
 
 def generate_query(data,idx,mode='_typo'):
     choices = [data['word'],data['choice1'],data['choice2'],data['choice3']]
